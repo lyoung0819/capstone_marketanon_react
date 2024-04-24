@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom'
 import Dash from './views/Dash'
+import Home from './webpage/Home'
 import Navigation from './components/Navigation';
 import Signup from './webpage/Signup';
 import Container from 'react-bootstrap/Container'
@@ -21,8 +22,9 @@ export default function App() {
       <Navigation isLoggedIn={isLoggedIn} />
       <Container>
         <Routes>
-          <Route path='/' element={<Dash handleClick={handleClick} isLoggedIn={isLoggedIn} />}  />
+          <Route path='/' element={<Dash isLoggedIn={isLoggedIn} />}  />
           <Route path='/' element={<Signup />} />
+          <Route path='/' element={<Home handleClick={handleClick} isLoggedIn={isLoggedIn} />} />
         </Routes>
       </Container>
     </>

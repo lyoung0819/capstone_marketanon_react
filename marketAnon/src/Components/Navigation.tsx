@@ -18,7 +18,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps) {
                     <Nav className='me-auto'>
                         { isLoggedIn ? (
                             <> 
-                            <Nav.Link as={Link} to='/dashboard'> Dashboard </Nav.Link>
+                            <Nav.Link as={Link} to='/dash'> Dashboard </Nav.Link>
                             <Nav.Link as={Link} to='/logout'> Logout </Nav.Link>
                             </>
                             ) :

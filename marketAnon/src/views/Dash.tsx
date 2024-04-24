@@ -3,7 +3,7 @@
     // My Reviews: 
 
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { ReviewType } from '../types'
@@ -18,12 +18,11 @@ type Sorting = {
 
 // DASH PROPS
 type DashProps = {
-  handleClick: () => void,
   isLoggedIn: boolean
 }
 
 // DASH FUNCTION 
-export default function Dash({ handleClick, isLoggedIn } :DashProps){
+export default function Dash({ isLoggedIn } :DashProps){
   // Arr of REVIEWS
   const [reviews, setReviews] = useState<ReviewType[]>([
     {
@@ -79,7 +78,6 @@ export default function Dash({ handleClick, isLoggedIn } :DashProps){
   // OUTPUT
   return (
     <>
-    <Button variant='primary' onClick={handleClick}>{isLoggedIn ? 'Log Out' : 'Log In'}</Button>
       <Row>
         <Col xs={12} md={8}>
           <Form.Control value={searchTerm} placeholder='Search Reviews' onChange={handleInputChange}/>
@@ -90,9 +88,11 @@ export default function Dash({ handleClick, isLoggedIn } :DashProps){
             <option value="idDsc">By Oldest</option>
           </Form.Select>
         </Col>
+        <Col>
+        </Col>
+        {reviews.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
       </Row>
-      {reviews.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
-      </>
+    </>
   )
 }
 
