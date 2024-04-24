@@ -16,14 +16,16 @@ export default function Navigation({ isLoggedIn }: NavigationProps) {
                 <Navbar.Collapse id='nav-collapes'>
                     <Nav className='me-auto'>
                         { isLoggedIn ? (
-                                <> 
-                            <li>Dashboard</li>
-                            <li>Logout</li>
-                                </>) :
-                            (<>
-                            <li>Home</li>
-                            <li>Sign Up</li>
-                            <li>Login</li>                
+                            <> 
+                            <li> Dashboard </li>
+                            <li> Logout </li>
+                            </>
+                            ) :
+                            (
+                            <>
+                            <li> Home </li>
+                            <li> Sign Up </li>
+                            <li> Login </li>    
                             </>
                             )
                         }
