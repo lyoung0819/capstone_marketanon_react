@@ -53,7 +53,7 @@ export default function Dash({ }: DashProps) {
           <Form.Control value={searchVendors} placeholder='Search Vendors:' onChange={handleInputChange} />
         </Col>
         <Col>
-          {vendors.filter(v => v.name.toLowerCase().includes(searchVendors.toLowerCase())).map(v => <Vendor key={v.id} vendor={v} />)}
+          {vendors.filter(v => v.companyName.toLowerCase().includes(searchVendors.toLowerCase())).map(v => <Vendor key={v.id} vendor={v} />)}
         </Col>
       </Row>
     </>

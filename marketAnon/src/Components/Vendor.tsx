@@ -12,7 +12,7 @@ export default function Review({ vendor }: VendorProps){
     return (
            <Card className='my-2' bg='dark' text='white'>
             <Card.Header>
-                <Card.Title>{vendor.name}</Card.Title>
+                <Card.Title>{vendor.companyName}</Card.Title>
             </Card.Header>
            </Card>
         )

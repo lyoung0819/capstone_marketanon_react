@@ -10,7 +10,7 @@ export type UserBuyerType = {
 
 export type VendorType = {
   id: number,
-  name: string
+  companyName: string
 }
 
 export type ReviewType = {
