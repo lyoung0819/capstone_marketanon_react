@@ -117,11 +117,11 @@ async function getAllReviews(): Promise<APIResponse<ReviewType[]>> {
     return { data, error }
 }
 
-async function createPost(token:string, postData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
+async function createReview(token:string, reviewData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
     try {
-        const response = await apiClientTokenAuth(token).post(reviewEndpoint, postData)
+        const response = await apiClientTokenAuth(token).post(reviewEndpoint, reviewData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -134,11 +134,11 @@ async function createPost(token:string, postData:ReviewFormDataType): Promise<AP
 }
 
 
-async function getPostById(postID:string|number): Promise<APIResponse<ReviewType>> {
+async function getReviewById(reviewId:string|number): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
     try{
-        const response = await apiClientNoAuth().get(reviewEndpoint + '/' + postID)
+        const response = await apiClientNoAuth().get(reviewEndpoint + '/' + reviewId)
         data= response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -150,15 +150,15 @@ async function getPostById(postID:string|number): Promise<APIResponse<ReviewType
     return { data, error }
 }
 
-async function editPostById(postId:string|number, token:string, editedPostData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
+async function editReviewById(reviewId:string|number, token:string, editedReviewData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
     try{
-        const response = await apiClientTokenAuth(token).put(reviewEndpoint + '/' + postId, editedPostData)
+        const response = await apiClientTokenAuth(token).put(reviewEndpoint + '/' + reviewId, editedReviewData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
-            error = err.response?.data?.error || `Post with ID ${postId} does not exist`
+            error = err.response?.data?.error || `Post with ID ${reviewId} does not exist`
         } else {
             error = 'Something went wrong'
         }
@@ -174,7 +174,7 @@ export {
     getAllReviews,
     login,
     getMe,
-    createPost,
-    getPostById,
-    editPostById
+    createReview,
+    getReviewById,
+    editReviewById
 }
