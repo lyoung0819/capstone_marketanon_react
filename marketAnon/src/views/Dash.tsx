@@ -11,7 +11,9 @@ import Vendor from '../components/Vendor'
 
 
 // DASH PROPS
-type DashProps = {}
+type DashProps = {
+  logUserOut: () => void
+}
 
 // DASH FUNCTION 
 export default function Dash({ }: DashProps) {
