@@ -7,6 +7,10 @@ import Card from 'react-bootstrap/Card'
 type UserprofileProps = {}
 
 export default function Userprofile({}: UserprofileProps) {
+
+  //useEffect calling getMe()
+
+
   return (
     <>
     <Row>

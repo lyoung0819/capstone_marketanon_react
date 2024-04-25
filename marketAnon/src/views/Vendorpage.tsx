@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { ReviewFormDataType, ReviewType } from '../types'
+//import { ReviewFormDataType} from '../types'
+import { ReviewType } from '../types'
 import Form from 'react-bootstrap/Form';
 import Review from '../components/Review'
-import ReviewForm from '../components/ReviewForm'
+//import ReviewForm from '../components/ReviewForm'
+import { getAllReviews } from '../lib/apiWrapper';
 
 // SORTING TYPE
 type Sorting = {
@@ -16,42 +18,29 @@ type Sorting = {
 type VendorPageProps = {}
 export default function Vendorpage({ }: VendorPageProps) {
 
-  // ------
-  // EVERYTHING TO DO WITH REVIEWS: 
+
   //Show create review form 
   const [showForm, setShowForm] = useState(false)
-  // Arr of REVIEWS
-  const [reviews, setReviews] = useState<ReviewType[]>([
-    {
-      id: 1,
-      title: 'MarketAnon Rules!',
-      body: 'I love MarketAnon because I built it',
-      date_created: '08/04/2024',
-      vendor_id: 2,
-      author: {
-        id: 1,
-        firstName: 'Lexie',
-        lastName: 'Young',
-        username: 'LY19',
-        email: 'young.alexandria19@gmail.com'
-      }
-    },
-    {
-      id: 2,
-      title: 'I love McDonalds!',
-      body: 'fries yum',
-      date_created: '08/04/2024',
-      vendor_id: 6,
-      author: {
-        id: 2,
-        firstName: 'Jane',
-        lastName: 'Doe',
-        username: 'Jdoee',
-        email: 'jd@fake.com'
+  const [reviews, setReviews] = useState<ReviewType[]>([])
+
+  // Grab reviews from db
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getAllReviews();
+      console.log(response)
+      if (response.data) {
+        let reviews = response.data;
+        setReviews(reviews)
       }
     }
-  ])
+    fetchData()
+  }, [])
+
+
+
+
   // SEARCH TERM & STATE FOR FILTERING THRU REVS
+
   const [searchTerm, setSearchTerm] = useState('');
   // SORTING FUNCTION FOR SORTING REVS
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,13 +57,13 @@ export default function Vendorpage({ }: VendorPageProps) {
     setSearchTerm(e.target.value)
   }
   // ADD NEW REVIEW
-  const addNewReview = (newReviewData: ReviewFormDataType) => {
-    const author = { id: 2, firstName: 'Jane', lastName: 'Doe', username: 'Jdoee', email: 'jd@fake.com' }
-    let vendor_id = 1
-    const newReview: ReviewType = { ...newReviewData, id: reviews.length + 1, date_created: new Date().toString(), author, vendor_id }
-    setReviews([...reviews, newReview])
-  }
-  // ------
+  // const addNewReview = (newReviewData: ReviewFormDataType) => {
+  //   const author = { id: 2, firstName: 'Jane', lastName: 'Doe', username: 'Jdoee', email: 'jd@fake.com' }
+  //   let vendor_id = 1
+  //   const newReview: ReviewType = { ...newReviewData, id: reviews.length + 1, date_created: new Date().toString(), author, vendor_id }
+  //   setReviews([...reviews, newReview])
+  // }
+  // // ------
 
   return (
     <>
@@ -92,7 +81,7 @@ export default function Vendorpage({ }: VendorPageProps) {
           <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review'}</Button>
         </Col>
       </Row>
-      {showForm && <ReviewForm addNewReview={addNewReview} />}
+      {/* {showForm && <ReviewForm addNewReview={addNewReview} />} */}
       <Row>
         {reviews.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
       </Row>

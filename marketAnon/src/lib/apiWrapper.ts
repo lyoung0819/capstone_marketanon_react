@@ -33,7 +33,7 @@ type APIResponse<T> = {
     error?: string
 }
 
-// takes in new user data 
+
 async function register(newUserData:UserFormDataType): Promise<APIResponse<UserBuyerType>> {
     let data;
     let error;

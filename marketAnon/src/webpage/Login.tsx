@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { CategoryType, UserFormDataType } from '../types';
 import { login } from '../lib/apiWrapper';
@@ -31,7 +33,7 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+        console.log(userFormData)
         const response = await login(userFormData.username!, userFormData.password!)
         if(response.error){
             flashMessage(response.error, 'danger')
@@ -41,14 +43,18 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
             localStorage.setItem('token', token)
             localStorage.setItem('tokenExp', tokenExp);
             logUserIn();
-            flashMessage(response.data?.token, 'success')
-            navigate('/')
+            // flashMessage(response.data?.token, 'success')
+            navigate('/dash')
         }
     }
 
     return (
         <>
-            <h1 className="text-center">Log In:</h1>
+            <h1 className="text-center mt-5 mb-4">Log In:</h1>
+            <Row>
+                <Col lg={3}>
+                </Col>
+                <Col lg={6}>
             <Card>
                 <Card.Body>
                     <Form onSubmit={handleFormSubmit}>
@@ -65,6 +71,10 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
                     </Form>
                 </Card.Body>
             </Card>
+            </Col>
+            <Col lg={3}>
+                </Col>
+            </Row>
         </>
     )
 }

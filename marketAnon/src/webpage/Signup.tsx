@@ -42,7 +42,7 @@ export default function Signup({ flashMessage }: SignUpProps) {
         } else {
             let newUser = response.data!
             flashMessage(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`, 'success')
-            navigate('/');
+            navigate('/dash');
         }
     }
 
