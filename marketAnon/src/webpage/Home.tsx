@@ -1,16 +1,13 @@
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 import logo from '../assets/malogo.png'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-type HomeProps = {
-  handleClick: () => void,
-  isLoggedIn: boolean
-}
+type HomeProps = {}
 
 
-export default function Home({ handleClick, isLoggedIn }: HomeProps) {
+export default function Home({}: HomeProps) {
   return (
     <div>
       <Row className='my-5'>
@@ -21,9 +18,9 @@ export default function Home({ handleClick, isLoggedIn }: HomeProps) {
       <Row id='slogan-right' className='my-5'>
         <h5 className="text-center home-pink">Built for the decision maker.</h5>
       </Row>
-      <Row>
+      {/* <Row>
         <Button className='button' onClick={handleClick}>{isLoggedIn ? 'Log Out' : 'Log In'}</Button>
-      </Row>
+      </Row> */}
       <Row className="text-center my-5">
         <h4>How It Works</h4>
       </Row>
