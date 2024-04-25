@@ -2,12 +2,13 @@
 // Go to Profile Page - button
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { VendorType } from '../types'
 import Vendor from '../components/Vendor'
+import { getAllVendors } from '../lib/apiWrapper';
 
 
 // DASH PROPS
@@ -18,11 +19,17 @@ type DashProps = {
 // DASH FUNCTION 
 export default function Dash({ }: DashProps) {
   // ------
-  const [vendors, setVendors] = useState<VendorType[]>([
-    { id: 1, name: 'Zscaler' },
-    { id: 2, name: 'CrowdStrike' },
-    { id: 3, name: 'Rubrik' }
-  ])
+  const [vendors, setVendors] = useState<VendorType[]>([])
+
+  // Grab vendors from db
+  useEffect(() => {
+    async function fetchData(){
+      const response = await getAllVendors();
+      console.log(response)
+    }
+    fetchData()
+  } )
+
 
   // search default set as empty string
   const [searchVendors, setSearchVendors] = useState('')
@@ -38,7 +45,7 @@ export default function Dash({ }: DashProps) {
   return (
     <>
       <Row>
-        <Col xs={12} md={12}>
+        <Col xs={12} md={12} className='mt-4'>
           <Form.Control value={searchVendors} placeholder='Search Vendors:' onChange={handleInputChange} />
         </Col>
         <Col>

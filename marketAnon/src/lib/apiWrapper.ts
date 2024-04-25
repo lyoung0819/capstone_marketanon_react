@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { ReviewFormDataType, ReviewType, TokenType, UserFormDataType, UserBuyerType } from '../types';
+import { ReviewFormDataType, ReviewType, VendorType, TokenType, UserFormDataType, UserBuyerType } from '../types';
 
 
 const baseURL:string = 'https://marketanon.onrender.com'
 const userEndpoint:string = '/users'
 const reviewEndpoint:string = '/reviews'
 const tokenEndpoint:string = '/token'
+const vendorEndpoint:string = '/vendors'
 
 
 const apiClientNoAuth = () => axios.create({
@@ -83,7 +84,24 @@ async function getMe(token:string): Promise<APIResponse<UserBuyerType>> {
 }
 
 
-async function getAllPosts(): Promise<APIResponse<ReviewType[]>> {
+async function getAllVendors(): Promise<APIResponse<VendorType[]>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientNoAuth().get(vendorEndpoint);
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.message
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
+
+async function getAllReviews(): Promise<APIResponse<ReviewType[]>> {
     let data;
     let error;
     try{
@@ -152,7 +170,8 @@ async function editPostById(postId:string|number, token:string, editedPostData:R
 
 export {
     register,
-    getAllPosts,
+    getAllVendors,
+    getAllReviews,
     login,
     getMe,
     createPost,
