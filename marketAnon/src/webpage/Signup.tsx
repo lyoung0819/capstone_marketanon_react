@@ -46,8 +46,8 @@ export default function Signup({ flashMessage }: SignUpProps) {
         }
     }
 
-    //more sophisticated password with regex: const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.password
-    const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.password
+    const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.password
+    // const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.password
 
 
   return (
@@ -76,17 +76,17 @@ export default function Signup({ flashMessage }: SignUpProps) {
 
             <Form.Label htmlFor='password'>Password</Form.Label>
             <InputGroup>
-            <Form.Control value={userFormData.password} id='password' name='password' type={seePassword1 ? 'text' : 'password'} placeholder='Enter Password' onChange={handleInputChange} />
-            <InputGroup.Text onClick={() => setSeePassword1(!seePassword1)}><i className={seePassword1 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
+                <Form.Control value={userFormData.password} id='password' name='password' type={seePassword1 ? 'text' : 'password'} placeholder='Enter Password' onChange={handleInputChange} />
+                <InputGroup.Text onClick={() => setSeePassword1(!seePassword1)}><i className={seePassword1 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
             </InputGroup>
 
             <Form.Label htmlFor='confirmpassword'>Confrim Password</Form.Label>
             <InputGroup>
-            <Form.Control value={userFormData.confirmPassword} id='confirmpassword' name='confirmpassword' type={seePassword2 ? 'text' : 'password'} placeholder='Confirm Password' onChange={handleInputChange} />
-            <InputGroup.Text onClick={() => setSeePassword2(!seePassword2)}><i className={seePassword2 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
+                <Form.Control value={userFormData.confirmPassword} id='confirmpassword' name='confirmpassword' type={seePassword2 ? 'text' : 'password'} placeholder='Confirm Password' onChange={handleInputChange} />
+                <InputGroup.Text onClick={() => setSeePassword2(!seePassword2)}><i className={seePassword2 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
             </InputGroup>
 
-            <Button type='submit' variant='outline-primary' className='w-100 mt-3' disabled={disableSubmit} >Create New User</Button>
+            <Button type='submit' variant='outline-primary' className='w-100 mt-3' disabled={disableSubmit}>Create Account</Button>
             </Form>
         </Card.Body>
       </Card>

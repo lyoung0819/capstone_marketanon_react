@@ -3,8 +3,12 @@
 
 type UserprofileProps = {}
 
-export default function userprofile({}: UserprofileProps) {
+export default function Userprofile({}: UserprofileProps) {
   return (
-    <div>userprofile</div>
+    <div>
+      <h1>
+        Userprofile
+      </h1>
+      </div>
   )
 }

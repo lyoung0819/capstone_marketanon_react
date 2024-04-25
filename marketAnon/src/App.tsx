@@ -4,6 +4,7 @@ import Dash from './views/Dash'
 import Home from './webpage/Home'
 import Vendorpage from './views/Vendorpage';
 import Login from './webpage/Login';
+import Userprofile from './views/Userprofile';
 import Navigation from './components/Navigation';
 import Signup from './webpage/Signup';
 import Container from 'react-bootstrap/Container'
@@ -49,6 +50,7 @@ export default function App() {
           <Route path='/home' element={<Home handleClick={handleClick} isLoggedIn={isLoggedIn} />} />
           <Route path='/vendor' element={<Vendorpage />} />
           <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn}/>} />
+          <Route path='/myprofile' element={<Userprofile />} />
         </Routes>
       </Container>
     </>
