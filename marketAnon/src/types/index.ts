@@ -18,3 +18,7 @@ export type ReviewType = {
   }
   
   
+export type ReviewFormDataType = {
+    title: string,
+    body: string,
+}

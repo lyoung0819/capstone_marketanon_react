@@ -3,12 +3,13 @@
     // My Reviews: 
 
 import { useState } from 'react';
-// import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { ReviewType } from '../types'
+import { ReviewFormDataType, ReviewType } from '../types'
 import Form from 'react-bootstrap/Form';
 import Review from '../components/Review'
+import ReviewForm from '../components/ReviewForm'
 
 // SORTING TYPE
 type Sorting = {
@@ -23,6 +24,10 @@ type DashProps = {
 
 // DASH FUNCTION 
 export default function Dash({ isLoggedIn } :DashProps){
+  //Show create review form 
+  const [showForm, setShowForm] = useState(false)
+
+
   // Arr of REVIEWS
   const [reviews, setReviews] = useState<ReviewType[]>([
     {
@@ -74,11 +79,19 @@ export default function Dash({ isLoggedIn } :DashProps){
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)}
 
+  // ADD NEW REVIEW
+  const addNewReview = (newReviewData: ReviewFormDataType) => {
+    const author = {id: 2, firstName: 'Jane', lastName: 'Doe', username: 'Jdoee', email:'jd@fake.com'}
+    let vendor_id = 1
+    const newReview: ReviewType = {...newReviewData, id:reviews.length+1, date_created: new Date().toString(), author, vendor_id} 
+    setReviews([...reviews, newReview])
+  }
+  
 
   // OUTPUT
   return (
     <>
-      <Row>
+      <Row  classname="mb-3">
         <Col xs={12} md={8}>
           <Form.Control value={searchTerm} placeholder='Search Reviews' onChange={handleInputChange}/>
         </Col>
@@ -89,7 +102,11 @@ export default function Dash({ isLoggedIn } :DashProps){
           </Form.Select>
         </Col>
         <Col>
+        <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review' }</Button>
         </Col>
+      </Row>
+      { showForm && <ReviewForm addNewReview={addNewReview}/>}
+      <Row>
         {reviews.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
       </Row>
     </>

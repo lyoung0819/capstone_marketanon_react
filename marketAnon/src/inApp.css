@@ -7,3 +7,8 @@ body {
     height: 40px;
     width: auto;
 }
+
+.button {
+    background-color: #EA63A5;
+    border-color: #EA63A5;
+}
