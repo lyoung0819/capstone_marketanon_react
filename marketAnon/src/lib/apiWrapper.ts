@@ -2,9 +2,9 @@ import axios from 'axios';
 import { ReviewFormDataType, ReviewType, TokenType, UserFormDataType, UserBuyerType } from '../types';
 
 
-const baseURL:string = 'https://kekambas-142-flask-blog-api.onrender.com'
+const baseURL:string = 'https://marketanon.onrender.com'
 const userEndpoint:string = '/users'
-const postEndpoint:string = '/posts'
+const reviewEndpoint:string = '/reviews'
 const tokenEndpoint:string = '/token'
 
 
@@ -32,6 +32,7 @@ type APIResponse<T> = {
     error?: string
 }
 
+// takes in new user data 
 async function register(newUserData:UserFormDataType): Promise<APIResponse<UserBuyerType>> {
     let data;
     let error;
@@ -86,7 +87,7 @@ async function getAllPosts(): Promise<APIResponse<ReviewType[]>> {
     let data;
     let error;
     try{
-        const response = await apiClientNoAuth().get(postEndpoint);
+        const response = await apiClientNoAuth().get(reviewEndpoint);
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -102,7 +103,7 @@ async function createPost(token:string, postData:ReviewFormDataType): Promise<AP
     let data;
     let error;
     try {
-        const response = await apiClientTokenAuth(token).post(postEndpoint, postData)
+        const response = await apiClientTokenAuth(token).post(reviewEndpoint, postData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -119,7 +120,7 @@ async function getPostById(postID:string|number): Promise<APIResponse<ReviewType
     let data;
     let error;
     try{
-        const response = await apiClientNoAuth().get(postEndpoint + '/' + postID)
+        const response = await apiClientNoAuth().get(reviewEndpoint + '/' + postID)
         data= response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -135,7 +136,7 @@ async function editPostById(postId:string|number, token:string, editedPostData:R
     let data;
     let error;
     try{
-        const response = await apiClientTokenAuth(token).put(postEndpoint + '/' + postId, editedPostData)
+        const response = await apiClientTokenAuth(token).put(reviewEndpoint + '/' + postId, editedPostData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){

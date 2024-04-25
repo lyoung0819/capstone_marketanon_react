@@ -46,8 +46,8 @@ export default function Signup({ flashMessage }: SignUpProps) {
         }
     }
 
-    const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.password
-    // const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.password
+    //const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.password
+    const disableSubmit = userFormData.password.length < 8 || userFormData.password !== userFormData.password
 
 
   return (
@@ -80,9 +80,9 @@ export default function Signup({ flashMessage }: SignUpProps) {
                 <InputGroup.Text onClick={() => setSeePassword1(!seePassword1)}><i className={seePassword1 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
             </InputGroup>
 
-            <Form.Label htmlFor='confirmpassword'>Confrim Password</Form.Label>
+            <Form.Label htmlFor='confirmPassword'>Confrim Password</Form.Label>
             <InputGroup>
-                <Form.Control value={userFormData.confirmPassword} id='confirmpassword' name='confirmpassword' type={seePassword2 ? 'text' : 'password'} placeholder='Confirm Password' onChange={handleInputChange} />
+                <Form.Control value={userFormData.confirmPassword} id='confirmPassword' name='confirmPassword' type={seePassword2 ? 'text' : 'password'} placeholder='Confirm Password' onChange={handleInputChange} />
                 <InputGroup.Text onClick={() => setSeePassword2(!seePassword2)}><i className={seePassword2 ? 'bi bi-eye-slash': 'bi bi-eye'}></i></InputGroup.Text>
             </InputGroup>
 
