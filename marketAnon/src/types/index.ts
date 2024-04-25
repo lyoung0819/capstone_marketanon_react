@@ -7,6 +7,10 @@ export type UserBuyerType = {
   email:string
 }
 
+export type VendorType = {
+  id: number,
+  name: string
+}
 
 export type ReviewType = {
     id: number,

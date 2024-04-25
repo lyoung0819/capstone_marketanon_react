@@ -1,7 +1,9 @@
 
 
 
-type VendorSearchProps = {}
+type VendorSearchProps = {
+    
+}
 
 export default function VendorSearch():VendorSearchProps{
     return (
