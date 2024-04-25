@@ -50,3 +50,8 @@ body {
     display: flex;
     justify-content: right;
 }
+
+.nav-link{
+    text-decoration-color: antiquewhite !important;
+    color: #EA63A5 
+}

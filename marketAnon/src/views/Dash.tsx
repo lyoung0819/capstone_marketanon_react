@@ -49,7 +49,7 @@ export default function Dash({ }: DashProps) {
   return (
     <>
       <Row>
-        <Col xs={12} md={12} className='mt-4'>
+        <Col xs={12} md={12} className='my-4'>
           <Form.Control value={searchVendors} placeholder='Search Vendors:' onChange={handleInputChange} />
         </Col>
         <Col>

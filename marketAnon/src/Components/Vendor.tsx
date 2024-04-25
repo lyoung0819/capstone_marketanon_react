@@ -5,7 +5,7 @@ type VendorProps = {
     vendor: VendorType
 }
 
-export default function Review({ vendor }: VendorProps){
+export default function Vendor({ vendor }: VendorProps){
     console.log(vendor)
 
 

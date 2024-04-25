@@ -8,19 +8,23 @@ type NavigationProps = {
     isLoggedIn: boolean
 }
 
+// <Navbar.Toggle aria-controls='nav-collapse' />
+// <Navbar.Collapse id='nav-collapes'>
+// </Navbar.Collapse>
+
 export default function Navigation({ isLoggedIn }: NavigationProps) {
     return (
         <Navbar expand='lg' data-bs-theme='dark' bg='dark'>
-            <Container>
+            <Container fluid>
                 <Navbar.Brand as={Link} to='/home'><img src={logo} alt="Logo" id='navlogo' /></Navbar.Brand>
-                <Navbar.Toggle aria-controls='nav-collapse' />
-                <Navbar.Collapse id='nav-collapes'>
-                    <Nav className='me-auto'>
+                
+
+                    <Nav className="justify-content-end" variant="underline">
                         { isLoggedIn ? (
                             <> 
                             <Nav.Link as={Link} to='/dash'> Dashboard </Nav.Link>
-                            <Nav.Link as={Link} to='/logout'> Logout </Nav.Link>
                             <Nav.Link as={Link} to='/myprofile'> My Profile </Nav.Link>
+                            <Nav.Link as={Link} to='/logout'> Logout </Nav.Link>
                             </>
                             ) :
                             (
@@ -32,7 +36,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps) {
                             )
                         }
                     </Nav>
-                </Navbar.Collapse>
+               
             </Container>
         </Navbar>
       
