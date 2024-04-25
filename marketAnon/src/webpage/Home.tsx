@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button'
 import logo from '../assets/malogo.png'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 
 type HomeProps = {
   handleClick: () => void,
@@ -22,6 +23,36 @@ export default function Home({ handleClick, isLoggedIn }: HomeProps) {
       </Row>
       <Row>
         <Button className='button' onClick={handleClick}>{isLoggedIn ? 'Log Out' : 'Log In'}</Button>
+      </Row>
+      <Row className="text-center my-5">
+        <h4>How It Works</h4>
+      </Row>
+      <Row>
+        <Col lg={3}>
+          <Card bg='dark' text='white' border="light" >
+          <Card.Header><h6 className='text-center'> Procurement Teams</h6>
+                </Card.Header>
+          </Card>
+        </Col>
+        <Col lg={3}>
+        <Card bg='dark' text='white' border="light">
+        <Card.Header><h6 className='text-center'> Procurement Teams</h6>
+                </Card.Header>
+          </Card>
+          </Col>
+        <Col lg={3}>
+        <Card bg='dark' text='white' border="light">
+        <Card.Header><h6 className='text-center'> Procurement Teams</h6>
+                </Card.Header>
+          </Card>
+        </Col>
+        <Col lg={3}>
+        <Card bg='dark' text='white' border="light">
+              <Card.Header><h6 className='text-center'> Procurement Teams</h6>
+                </Card.Header>
+          </Card>
+          </Col>
+      
       </Row>
     </div>
   )
