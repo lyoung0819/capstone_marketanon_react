@@ -26,9 +26,13 @@ export default function Dash({ }: DashProps) {
     async function fetchData(){
       const response = await getAllVendors();
       console.log(response)
+      if (response.data){
+        let vendors = response.data;
+        setVendors(vendors)
+      }
     }
     fetchData()
-  } )
+  }, [])
 
 
   // search default set as empty string
