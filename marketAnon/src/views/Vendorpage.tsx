@@ -60,7 +60,7 @@ export default function Vendorpage({ flashMessage }: VendorPageProps) {
     <Container>
         <div className="my-4">
           <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review'}</Button>
-          {showForm && <ReviewForm addNewReview={addNewReview} />}
+          {showForm && <ReviewForm addNewReview={addNewReview} companyName={companyName} />}
         </div>
       <Row classname="my-6">
           <Col>

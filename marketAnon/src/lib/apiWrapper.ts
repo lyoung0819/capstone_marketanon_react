@@ -4,9 +4,9 @@ import { ReviewFormDataType, ReviewType, VendorType, TokenType, UserFormDataType
 
 const baseURL:string = 'https://marketanon.onrender.com'
 const userEndpoint:string = '/users'
-const reviewEndpoint:string = '/reviews'
+const reviewEndpoint:string = '/reviews' // do I need to add param here?
 const tokenEndpoint:string = '/token'
-const vendorEndpoint:string = '/vendors'
+const vendorEndpoint:string = '/vendor'
 
 
 const apiClientNoAuth = () => axios.create({
@@ -121,7 +121,7 @@ async function createReview(token:string, reviewData:ReviewFormDataType): Promis
     let data;
     let error;
     try {
-        const response = await apiClientTokenAuth(token).post(reviewEndpoint, reviewData)
+        const response = await apiClientTokenAuth(token).post(vendorEndpoint + '/' + reviewData.vendor, reviewData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){

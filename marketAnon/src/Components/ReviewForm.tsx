@@ -5,12 +5,13 @@ import Form from 'react-bootstrap/Form';
 import { ReviewFormDataType } from '../types';
 
 type ReviewFormProps = {
-    addNewReview: (data: ReviewFormDataType) => void
+    addNewReview: (data: ReviewFormDataType) => void,
+    companyName: string
 }
 
 
-export default function ReviewForm({ addNewReview }: ReviewFormProps) {
-    const [newReview, setNewReview] = useState<ReviewFormDataType>({ title: '', body: '', vendor: '' })
+export default function ReviewForm({ addNewReview, companyName }: ReviewFormProps) {
+    const [newReview, setNewReview] = useState<ReviewFormDataType>({ title: '', body: '', vendor: companyName })
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.name, event.target.value);
