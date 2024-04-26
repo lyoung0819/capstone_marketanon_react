@@ -150,6 +150,23 @@ async function getReviewById(reviewId:string|number): Promise<APIResponse<Review
     return { data, error }
 }
 
+async function getReviewsByCompany(companyName:string): Promise<APIResponse<ReviewType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientNoAuth().get(reviewEndpoint + '/' + companyName)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
+
 async function editReviewById(reviewId:string|number, token:string, editedReviewData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
@@ -166,7 +183,21 @@ async function editReviewById(reviewId:string|number, token:string, editedReview
     return { data, error }
 }
 
-
+async function deleteReviewById(reviewId:string|number, token:string): Promise<APIResponse<string>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).delete(reviewEndpoint + '/' + reviewId)
+        data = response.data.success
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data?.error || `Post with ID ${reviewId} does not exist`
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
 
 export {
     register,
@@ -175,6 +206,8 @@ export {
     login,
     getMe,
     createReview,
+    getReviewsByCompany,
     getReviewById,
-    editReviewById
+    editReviewById,
+    deleteReviewById
 }

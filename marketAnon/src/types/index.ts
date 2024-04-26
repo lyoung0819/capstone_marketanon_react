@@ -4,6 +4,8 @@ export type UserBuyerType = {
   firstName: string,
   lastName: string,
   username: string,
+  title: string,
+  company: string,
   email: string,
   password: string
 }
@@ -26,6 +28,7 @@ export type ReviewType = {
 export type ReviewFormDataType = {
     title: string,
     body: string,
+    vendor: string
 }
 
 export type UserFormDataType = {

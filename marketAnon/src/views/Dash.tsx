@@ -6,16 +6,13 @@ import { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { UserBuyerType, VendorType } from '../types'
+import { VendorType } from '../types'
 import Vendor from '../components/Vendor'
 import { getAllVendors } from '../lib/apiWrapper';
 
 
 // DASH PROPS
-type DashProps = {
-  currentUser: UserBuyerType|null,
-  logUserOut: () => void
-}
+type DashProps = {}
 
 // DASH FUNCTION 
 export default function Dash({ }: DashProps) {

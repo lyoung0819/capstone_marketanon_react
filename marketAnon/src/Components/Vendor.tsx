@@ -13,7 +13,7 @@ export default function Vendor({ vendor }: VendorProps){
     return (
            <Card className='my-2' bg='dark' text='white'>
             <Card.Header>
-                <Card.Title as={Link} to='/reviews'>{vendor.companyName}</Card.Title>
+                <Card.Title as={Link} to='/vendor'>{vendor.companyName}</Card.Title>
             </Card.Header>
            </Card>
         )

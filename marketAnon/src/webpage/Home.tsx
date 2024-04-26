@@ -1,11 +1,12 @@
-// import Button from 'react-bootstrap/Button'
 import logo from '../assets/malogo.png'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-type HomeProps = {}
 
+// Home Webpage: Essentially pure HTML for our homepage
+
+type HomeProps = {}
 
 export default function Home({}: HomeProps) {
   return (

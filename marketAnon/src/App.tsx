@@ -13,6 +13,7 @@ import { UserBuyerType, CategoryType } from './types'
 import Roadmap from './webpage/Roadmap';
 import { getMe } from './lib/apiWrapper';
 
+
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') && new Date(localStorage.getItem('tokenExp') || 0) > new Date() ? true : false);
   const [loggedInUser, setisLoggedInUser] = useState<UserBuyerType | null>(null)
@@ -24,10 +25,11 @@ export default function App() {
   useEffect(() => {
     async function getLoggedinUser() {
       if (isLoggedIn) {
-        const token = localStorage.getItem('token') || ''
+        const token = localStorage.getItem('token') || '';
         const response = await getMe(token);
         if (response.data) {
-          setisLoggedInUser(response.data)
+          setisLoggedInUser(response.data);
+          localStorage.setItem('currentUser', JSON.stringify(response.data))
         } else {
           setIsLoggedIn(false);
           console.error(response.data)
@@ -61,14 +63,14 @@ export default function App() {
 
   return (
     <>
-      <Navigation isLoggedIn={isLoggedIn} logUserOut={logUserOut}/>
+      <Navigation logUserOut={logUserOut} currentUser={loggedInUser}/>
       <Container>
         {message && <AlertMessage message={message} category={category} flashMessage={flashMessage} />}
         <Routes>
-          <Route path='/dash' element={<Dash logUserOut={logUserOut} currentUser={loggedInUser}/>} />
+          <Route path='/dash' element={<Dash />} />
           <Route path='/signup' element={<Signup flashMessage={flashMessage} />} />
           <Route path='/' element={<Home />} />
-          <Route path='/vendor' element={<Vendorpage />} />
+          <Route path='/vendor/:companyName' element={<Vendorpage flashMessage={flashMessage} />} />
           <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} />} />
           <Route path='/myprofile' element={<Userprofile />} />
           <Route path='/roadmap' element={<Roadmap />} />

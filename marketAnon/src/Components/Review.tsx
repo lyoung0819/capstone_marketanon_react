@@ -13,9 +13,11 @@ export default function Review({ review }: ReviewProps){
            <Card className='my-2' bg='dark' text='white'>
             <Card.Header>
                 <Card.Title>{review.title}</Card.Title>
-                <Card.Subtitle className="mb-1">{review.author.username}</Card.Subtitle>
+                <Card.Subtitle className="mb-1 text-pink">{review.author.username}</Card.Subtitle>
             </Card.Header>
-                <Card.Text className="my-2">{ review.body }</Card.Text>
+            <Card.Body>
+                <Card.Text className="">{ review.body }</Card.Text>
+            </Card.Body>
            </Card>
         )
     }

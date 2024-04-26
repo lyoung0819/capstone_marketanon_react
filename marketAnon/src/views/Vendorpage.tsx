@@ -2,89 +2,77 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-//import { ReviewFormDataType} from '../types'
-import { ReviewType } from '../types'
+import { ReviewFormDataType } from '../types'
+import { ReviewType, CategoryType } from '../types'
 import Form from 'react-bootstrap/Form';
 import Review from '../components/Review'
-//import ReviewForm from '../components/ReviewForm'
-import { getAllReviews } from '../lib/apiWrapper';
+import ReviewForm from '../components/ReviewForm'
+import { createReview, getReviewsByCompany } from '../lib/apiWrapper';
+import { Container } from 'react-bootstrap';
+import { useParams } from 'react-router-dom'
 
-// SORTING TYPE
-type Sorting = {
-  idAsc: (a: ReviewType, b: ReviewType) => number,
-  idDsc: (a: ReviewType, b: ReviewType) => number
+// THIS PAGE IS A PAGE FOR A SPECIFIC VENDOR & THEIR REVIEWS
+
+type VendorPageProps = {
+  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
 }
 
-type VendorPageProps = {}
-export default function Vendorpage({ }: VendorPageProps) {
+export default function Vendorpage({ flashMessage }: VendorPageProps) {
+  const { companyName } = useParams();
 
-
-  //Show create review form 
   const [showForm, setShowForm] = useState(false)
   const [reviews, setReviews] = useState<ReviewType[]>([])
+  const [fetchReviewData, setFetchReviewData] = useState(true);
 
   // Grab reviews from db
   useEffect(() => {
     async function fetchData() {
-      const response = await getAllReviews();
-      console.log(response)
+      const response = await getReviewsByCompany(companyName!); 
+      console.log(response.data)
       if (response.data) {
         let reviews = response.data;
+        // console.log(reviews)
         setReviews(reviews)
       }
     }
     fetchData()
-  }, [])
-
-
-
-
-  // SEARCH TERM & STATE FOR FILTERING THRU REVS
-
-  const [searchTerm, setSearchTerm] = useState('');
-  // SORTING FUNCTION FOR SORTING REVS
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortFunctions: Sorting = {
-      idAsc: (a: ReviewType, b: ReviewType) => a.id - b.id,
-      idDsc: (b: ReviewType, a: ReviewType) => b.id - a.id
-    }
-    const func = sortFunctions[e.target.value as keyof Sorting];
-    const newSortedArr = [...reviews].sort(func);
-    setReviews(newSortedArr)
-  }
-  // SEARCH FUNCTION FOR SEARCHING REVS
+  }, [fetchReviewData]) 
+ 
+  const [searchRevs, setSearchRevs] = useState('');
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
+    setSearchRevs(e.target.value)
   }
-  // ADD NEW REVIEW
-  // const addNewReview = (newReviewData: ReviewFormDataType) => {
-  //   const author = { id: 2, firstName: 'Jane', lastName: 'Doe', username: 'Jdoee', email: 'jd@fake.com' }
-  //   let vendor_id = 1
-  //   const newReview: ReviewType = { ...newReviewData, id: reviews.length + 1, date_created: new Date().toString(), author, vendor_id }
-  //   setReviews([...reviews, newReview])
-  // }
-  // // ------
+
+  const addNewReview = async (newReviewData: ReviewFormDataType) => {
+    const token = localStorage.getItem('token') || '';
+    const response = await createReview(token, newReviewData)
+    if (response.error) {
+      flashMessage(response.error, 'danger')
+    } else if (response.data) {
+      flashMessage(`${response.data.title} has been created`, 'success')
+      setShowForm(false)
+      setFetchReviewData(!fetchReviewData)
+    }
+  }
 
   return (
     <>
-      <Row classname="mb-3">
-        <Col xs={12} md={8}>
-          <Form.Control value={searchTerm} placeholder='Search Reviews' onChange={handleInputChange} />
-        </Col>
-        <Col>
-          <Form.Select onChange={handleSelectChange}>
-            <option value="idAsc">By Newest</option>
-            <option value="idDsc">By Oldest</option>
-          </Form.Select>
-        </Col>
-        <Col>
+    <Container>
+        <div className="my-4">
           <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review'}</Button>
+          {showForm && <ReviewForm addNewReview={addNewReview} />}
+        </div>
+      <Row classname="my-6">
+          <Col>
+            <Form.Control value={searchRevs} placeholder='Search Reviews' onChange={handleInputChange} />
+          </Col>
+      </Row>
+      <Row>
+        <Col>
+        {reviews.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
         </Col>
       </Row>
-      {/* {showForm && <ReviewForm addNewReview={addNewReview} />} */}
-      <Row>
-        {reviews.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
-      </Row>
+      </Container>
     </>
   )
 }
