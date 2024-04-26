@@ -1,7 +1,3 @@
-// Vendor Search : <VendorSearch />
-// Go to Profile Page - button
-
-
 import { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -9,14 +5,15 @@ import Form from 'react-bootstrap/Form'
 import { VendorType } from '../types'
 import Vendor from '../components/Vendor'
 import { getAllVendors } from '../lib/apiWrapper';
+//import { Link, useParams } from 'react-router-dom';
 
 
-// DASH PROPS
+
 type DashProps = {}
 
-// DASH FUNCTION 
+
 export default function Dash({ }: DashProps) {
-  // ------
+  //const { companyName } = useParams()
   const [vendors, setVendors] = useState<VendorType[]>([])
 
   // Grab vendors from db
@@ -33,17 +30,15 @@ export default function Dash({ }: DashProps) {
   }, [])
 
 
-  // search default set as empty string
-  const [searchVendors, setSearchVendors] = useState('')
 
-  // function to search thru list 
+  const [searchVendors, setSearchVendors] = useState('')
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value)
     setSearchVendors(e.target.value)
   }
 
-
-  // OUTPUT
+// <Vendor key={v.id} vendor={v} />
+// companyName={v.companyName}
   return (
     <>
       <Row>
@@ -51,7 +46,7 @@ export default function Dash({ }: DashProps) {
           <Form.Control value={searchVendors} placeholder='Search Vendors:' onChange={handleInputChange} />
         </Col>
         <Col>
-          {vendors.filter(v => v.companyName.toLowerCase().includes(searchVendors.toLowerCase())).map(v => <Vendor key={v.id} vendor={v} />)}
+          {vendors.filter(v => v.companyName.toLowerCase().includes(searchVendors.toLowerCase())).map(v => <Vendor key={v.id} vendor={v} companyName={v.companyName}/>)}
         </Col>
       </Row>
     </>

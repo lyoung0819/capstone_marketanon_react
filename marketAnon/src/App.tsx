@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
 import Dash from './views/Dash'
 import Home from './webpage/Home'
 import Vendorpage from './views/Vendorpage';
@@ -15,18 +15,18 @@ import { getMe } from './lib/apiWrapper';
 
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') && new Date(localStorage.getItem('tokenExp') || 0) > new Date() ? true : false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') ? true : false);
   const [loggedInUser, setisLoggedInUser] = useState<UserBuyerType | null>(null)
 
   const [message, setMessage] = useState<string | undefined>(undefined)
   const [category, setCategory] = useState<CategoryType | undefined>(undefined)
-
+  const { companyName } = useParams();
 
   useEffect(() => {
     async function getLoggedinUser() {
       if (isLoggedIn) {
-        const token = localStorage.getItem('token') || '';
-        const response = await getMe(token);
+        const token = localStorage.getItem('token');
+        const response = await getMe(token!);
         if (response.data) {
           setisLoggedInUser(response.data);
           localStorage.setItem('currentUser', JSON.stringify(response.data))
@@ -70,7 +70,7 @@ export default function App() {
           <Route path='/dash' element={<Dash />} />
           <Route path='/signup' element={<Signup flashMessage={flashMessage} />} />
           <Route path='/' element={<Home />} />
-          <Route path='/vendor/:companyName' element={<Vendorpage flashMessage={flashMessage} />} />
+          <Route path={`/reviews:/companyName`} element={<Vendorpage flashMessage={flashMessage} companyName={companyName!}/>} />
           <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} />} />
           <Route path='/myprofile' element={<Userprofile />} />
           <Route path='/roadmap' element={<Roadmap />} />

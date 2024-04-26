@@ -9,17 +9,17 @@ import Review from '../components/Review'
 import ReviewForm from '../components/ReviewForm'
 import { createReview, getReviewsByCompany } from '../lib/apiWrapper';
 import { Container } from 'react-bootstrap';
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 // THIS PAGE IS A PAGE FOR A SPECIFIC VENDOR & THEIR REVIEWS
 
-type VendorPageProps = {
-  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
-}
+ type VendorPageProps = {
+  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void,
+  companyName: string
+ }
 
-export default function Vendorpage({ flashMessage }: VendorPageProps) {
-  const { companyName } = useParams();
-
+ export default function Vendorpage({ flashMessage, companyName }: VendorPageProps) {
+  
   const [showForm, setShowForm] = useState(false)
   const [reviews, setReviews] = useState<ReviewType[]>([])
   const [fetchReviewData, setFetchReviewData] = useState(true);
@@ -60,7 +60,7 @@ export default function Vendorpage({ flashMessage }: VendorPageProps) {
     <Container>
         <div className="my-4">
           <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review'}</Button>
-          {showForm && <ReviewForm addNewReview={addNewReview} companyName={companyName} />}
+          {showForm && <ReviewForm addNewReview={addNewReview} companyName={companyName}/>}
         </div>
       <Row classname="my-6">
           <Col>
