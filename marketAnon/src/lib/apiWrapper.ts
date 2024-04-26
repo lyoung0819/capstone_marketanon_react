@@ -134,7 +134,7 @@ async function createReview(token:string, reviewData:ReviewFormDataType): Promis
 }
 
 
-async function getReviewById(reviewId:string|number): Promise<APIResponse<ReviewType>> {
+async function getReviewById(reviewId:string|number): Promise<APIResponse<ReviewType[]>> {
     let data;
     let error;
     try{

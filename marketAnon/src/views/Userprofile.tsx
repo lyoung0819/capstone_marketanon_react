@@ -1,44 +1,57 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import { UserBuyerType, ReviewType } from '../types'
+import { useEffect, useState } from 'react'
+import { getReviewById } from '../lib/apiWrapper'
+import Review from '../components/Review'
 
-//bring in current user to display username
-//display THEIR reviews
-type UserprofileProps = {}
+type UserprofileProps = {
+  currentUser: UserBuyerType|null
+}
 
-export default function Userprofile({}: UserprofileProps) {
+export default function Userprofile({ currentUser }: UserprofileProps) {
+  const username = currentUser?.username
+  const title = currentUser?.title
+  const company = currentUser?.company
+  const name = currentUser?.firstName
+  const user_id = currentUser?.id
+  const [reviews, setReviews] = useState<ReviewType[]>([])
 
-  //useEffect calling getMe()
-
+  useEffect(() => {
+      async function fetchData() {
+        const response = await getReviewById(user_id!); 
+        console.log(response.data)
+        if (response.data) {
+          let reviews = response.data;
+          setReviews(reviews)
+        }
+      }
+      fetchData()
+    }, []) 
 
   return (
     <>
     <Row>
       <Col className='mt-5'>
-      <h1 className='text-pink'>Username</h1>
+      <h1 className='text-pink'>{username}</h1>
       </Col>
     </Row>
     <Row>
       <img></img>
-      <h1>Profile Pic</h1>
+      <h3>{title}</h3>
+      <h3>{company}</h3>
     </Row>
     <Row className='mt-4'>
         <Card bg='dark' text='white'>
               <Card.Header>
-                <h3>User's Name</h3>
-                <Card.Subtitle> User's Company & Job Title</Card.Subtitle>
+                <h3>Hello, {name}. Welcome Back!</h3>
               </Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <p>User's Review 1</p>
-                  <p>User's Review 2</p>
-                  <p>User's Review 3</p>
-                  <p>User's Review 4</p>
-                </Card.Text>
-              </Card.Body>
         </Card>
     </Row>
-
+    <Row>
+    {reviews.map(r => <Review key={r.id} review={r} />)}
+    </Row>
     </>
   )
 }

@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 
 type HomeProps = {}
 
-export default function Home({}: HomeProps) {
+export default function Home({ }: HomeProps) {
   return (
     <div>
       <Row className='my-5'>
@@ -26,31 +26,31 @@ export default function Home({}: HomeProps) {
         <h4>How It Works</h4>
       </Row>
       <Row>
-        <Col lg={3}>
+        <Col lg={4}>
           <Card bg='dark' text='white' border="light" >
-          <Card.Header><h6 className='text-center'> Procurement Teams</h6>
-                </Card.Header>
+
+            <Card.Title className='text-center mt-3 title'> Decision Makers
+            </Card.Title>
+            <Card.Body className='text-center'>Conduct research anonymously and get answers directly from vendor product specialists without revealing your identity</Card.Body>
           </Card>
         </Col>
-        <Col lg={3}>
-        <Card bg='dark' text='white' border="light">
-        <Card.Header><h6 className='text-center'> Procurement Teams</h6>
-                </Card.Header>
-          </Card>
-          </Col>
-        <Col lg={3}>
-        <Card bg='dark' text='white' border="light">
-        <Card.Header><h6 className='text-center'> Procurement Teams</h6>
-                </Card.Header>
+        <Col lg={4}>
+          <Card bg='dark' text='white' border="light">
+
+            <Card.Title className='text-center mt-3 title'> Procurement Teams
+            </Card.Title>
+
+            <Card.Body className='text-center'>Submit direct RFIs to vendors through the marketplace, without having to spend weeks in early sales cycle stages</Card.Body>
           </Card>
         </Col>
-        <Col lg={3}>
-        <Card bg='dark' text='white' border="light">
-              <Card.Header><h6 className='text-center'> Procurement Teams</h6>
-                </Card.Header>
+        <Col lg={4}>
+          <Card bg='dark' text='white' border="light">
+            <Card.Title className='text-center mt-3 title'> Vendors and GTM
+            </Card.Title>
+            <Card.Body className='text-center'>Filter through unqualified leads and get direct access to educated, ready buyers</Card.Body>
           </Card>
-          </Col>
-      
+        </Col>
+
       </Row>
     </div>
   )
