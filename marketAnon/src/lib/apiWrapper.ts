@@ -56,9 +56,8 @@ async function login(username:string, password:string): Promise<APIResponse<Toke
     try{
         const response = await apiClientBasicAuth(username, password).get(tokenEndpoint)
             data = response.data
-    } catch(err)
-{
-    if(axios.isAxiosError(err)){
+    } catch(err){
+        if(axios.isAxiosError(err)){
         error = err.response?.data.error
     } else {
         error = 'Something went wrong'
@@ -70,12 +69,21 @@ async function login(username:string, password:string): Promise<APIResponse<Toke
 async function getMe(token:string): Promise<APIResponse<UserBuyerType>> {
     let data;
     let error;
+    console.log(token, 'token inside of getme')
     try {
-        const response = await apiClientTokenAuth(token).get(userEndpoint + '/me')
-        data = response.data
+        // const response = await apiClientTokenAuth(token).get(userEndpoint + '/me')
+        const response = await fetch('https://marketanon.onrender.com/users/me', {
+            method:"GET", 
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        data = await response.json()
+        console.log(response, "we're inside of get me")
     } catch(err) {
         if (axios.isAxiosError(err)){
             error = err.response?.data.error
+            console.log(err, "error inside of get me")
         } else {
             error = 'Something went wrong'
         }
@@ -120,9 +128,26 @@ async function getAllReviews(): Promise<APIResponse<ReviewType[]>> {
 async function createReview(token:string, reviewData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
+    const url = 'https://marketanon.onrender.com/reviews'
+    const options = {
+        method:"POST",
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            title:reviewData.title,
+            body:reviewData.body,
+            rating:reviewData.rating,
+            vendor:reviewData.vendor
+        })
+    }
     try {
-        const response = await apiClientTokenAuth(token).post(reviewEndpoint + '/' + reviewData.vendor, reviewData)
-        data = response.data
+        //const response = await apiClientTokenAuth(token).post(reviewEndpoint, reviewData)
+        const response = await fetch(url, options)
+        data = await response.json()
+        console.log(data, 'data from create review')
+        console.log(data.status, 'status from create review')
     } catch(err) {
         if (axios.isAxiosError(err)){
             error = err.response?.data.error

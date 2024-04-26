@@ -9,20 +9,21 @@ import Review from '../components/Review'
 import ReviewForm from '../components/ReviewForm'
 import { createReview, getReviewsByCompany } from '../lib/apiWrapper';
 import { Container } from 'react-bootstrap';
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 // THIS PAGE IS A PAGE FOR A SPECIFIC VENDOR & THEIR REVIEWS
 
  type VendorPageProps = {
-  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void,
-  companyName: string
+  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
  }
 
- export default function Vendorpage({ flashMessage, companyName }: VendorPageProps) {
+ export default function Vendorpage({ flashMessage }: VendorPageProps) {
   
   const [showForm, setShowForm] = useState(false)
   const [reviews, setReviews] = useState<ReviewType[]>([])
   const [fetchReviewData, setFetchReviewData] = useState(true);
+
+  const { companyName } = useParams();
 
   // Grab reviews from db
   useEffect(() => {
@@ -69,7 +70,7 @@ import { Container } from 'react-bootstrap';
       </Row>
       <Row>
         <Col>
-        {reviews.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
+        {reviews && Array.isArray(reviews) && reviews?.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
         </Col>
       </Row>
       </Container>

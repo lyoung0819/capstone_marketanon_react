@@ -11,7 +11,7 @@ type ReviewFormProps = {
 
 
 export default function ReviewForm({ addNewReview, companyName }: ReviewFormProps) {
-    const [newReview, setNewReview] = useState<ReviewFormDataType>({ title: '', body: '', vendor: companyName })
+    const [newReview, setNewReview] = useState<ReviewFormDataType>({ title: '', body: '', vendor: companyName, rating:0 })
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.name, event.target.value);
@@ -32,6 +32,8 @@ export default function ReviewForm({ addNewReview, companyName }: ReviewFormProp
                     <Form.Control name='title' value={newReview.title} onChange={handleInputChange} />
                     <Form.Label>Review:</Form.Label>
                     <Form.Control name='body' value={newReview.body} onChange={handleInputChange} />
+                    <Form.Label>Rating:</Form.Label>
+                    <Form.Control name='rating' value={newReview.rating} onChange={handleInputChange} />
                     <Button className='mt-3 w-100 button' type='submit'>Create Post</Button>
                 </Form>
             </Card.Body>

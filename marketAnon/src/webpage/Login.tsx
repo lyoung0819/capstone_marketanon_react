@@ -23,7 +23,7 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
             username: '',
             password: '',
         }
-    )
+    ) // possibly not recognizing without other params?
 
     const [seePassword, setSeePassword] = useState(false);
 
@@ -34,6 +34,7 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log(userFormData)
+        
         const response = await login(userFormData.username!, userFormData.password!)
         if(response.error){
             flashMessage(response.error, 'danger')
@@ -51,7 +52,9 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
 
     return (
         <>
-            <h1 className="text-center mt-5 mb-4">Log In:</h1>
+            <div>
+            <h1 className="text-center mt-5 mb-4">Login:</h1>
+            </div>
             <Row>
                 <Col lg={3}>
                 </Col>
@@ -68,7 +71,7 @@ export default function Login({ flashMessage, logUserIn }: LoginProps) {
                             <InputGroup.Text onClick={() => setSeePassword(!seePassword)}><i className={seePassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i></InputGroup.Text>
                         </InputGroup>
 
-                        <Button type='submit' className='w-100 mt-3 button'>Log In</Button>
+                        <Button type='submit' className='w-100 mt-3 button'>Login</Button>
                     </Form>
                 </Card.Body>
             </Card>

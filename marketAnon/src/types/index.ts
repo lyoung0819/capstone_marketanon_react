@@ -28,7 +28,8 @@ export type ReviewType = {
 export type ReviewFormDataType = {
     title: string,
     body: string,
-    vendor: string
+    vendor: string,
+    rating: number
 }
 
 export type UserFormDataType = {
