@@ -1,27 +1,29 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import { UserBuyerType, ReviewType } from '../types'
+import { UserBuyerType, ReviewType, CategoryType } from '../types'
 import { useEffect, useState } from 'react'
-import { getReviewById } from '../lib/apiWrapper'
+import { getAllReviews } from '../lib/apiWrapper'
 import Review from '../components/Review'
+import { useParams } from 'react-router-dom'
 
 type UserprofileProps = {
   currentUser: UserBuyerType|null,
-//  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
+  flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
 }
 
-export default function Userprofile({ currentUser }: UserprofileProps) {
+export default function Userprofile({ currentUser, flashMessage }: UserprofileProps) {
   const username = currentUser?.username
   const title = currentUser?.title
   const company = currentUser?.company
   const name = currentUser?.firstName
-  const user_id = currentUser?.id
+  //const user_id = currentUser?.id
+  const { companyName } = useParams()
   const [reviews, setReviews] = useState<ReviewType[]>([])
 
   useEffect(() => {
       async function fetchData() {
-        const response = await getReviewById(user_id!); 
+        const response = await getAllReviews(); 
         console.log(response.data)
         if (response.data) {
           let reviews = response.data;
@@ -30,6 +32,18 @@ export default function Userprofile({ currentUser }: UserprofileProps) {
       }
       fetchData()
     }, []) 
+
+    let revs = reviews.filter( r => r.author.id==currentUser?.id)
+
+    // let vendor_id;
+    // reviews.map( r => vendor_id=r.vendor_id)
+
+    // getAllVendors()
+    // let company_name = vendor_id
+  
+  // Code to try and have edit/del buttons on reviews in userprofile
+  //const displayed_reviews = reviews.filter(r => r.author==currentUser)
+  //{displayed_reviews.map(r => <Review key={r.id} review={r} flashMessage={flashMessage} currentUser={currentUser}/>)}
 
   return (
     <>
@@ -59,8 +73,7 @@ export default function Userprofile({ currentUser }: UserprofileProps) {
         </Card>
     </Row>
     <Row>
-    {reviews.map(r => <Review key={r.id} review={r} />)}
+      {revs.map( r => <Review key={r.id} review={r} flashMessage={flashMessage} currentUser={currentUser} />)}
     </Row>
     </>
-  )
-}
+  )}

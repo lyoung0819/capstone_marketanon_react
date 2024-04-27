@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { ReviewType, UserBuyerType, CategoryType, ReviewFormDataType } from "../types"
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button'
-//import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -20,7 +19,6 @@ type ReviewProps = {
 
 export default function Review({ review, currentUser, flashMessage, companyName }: ReviewProps) {
     console.log(review);
-    // const { reviewId } = useParams();
     const navigate = useNavigate();
     const reviewId = review.id
     
@@ -66,6 +64,7 @@ export default function Review({ review, currentUser, flashMessage, companyName 
         } else {
             flashMessage(response.data!, 'primary')
             flashMessage('Your review was deleted!', 'success')
+            window.location.reload()
             navigate(`/myprofile`)
         }
     }
