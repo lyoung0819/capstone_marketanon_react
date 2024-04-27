@@ -5,7 +5,7 @@ import { UserBuyerType, ReviewType, CategoryType } from '../types'
 import { useEffect, useState } from 'react'
 import { getAllReviews } from '../lib/apiWrapper'
 import Review from '../components/Review'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 type UserprofileProps = {
   currentUser: UserBuyerType|null,
@@ -18,7 +18,7 @@ export default function Userprofile({ currentUser, flashMessage }: UserprofilePr
   const company = currentUser?.company
   const name = currentUser?.firstName
   //const user_id = currentUser?.id
-  const { companyName } = useParams()
+  // const { companyName } = useParams()
   const [reviews, setReviews] = useState<ReviewType[]>([])
 
   useEffect(() => {
