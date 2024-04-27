@@ -34,20 +34,28 @@ export default function Userprofile({ currentUser }: UserprofileProps) {
   return (
     <>
     <Row>
-      <Col className='mt-5'>
+      <Col className='mt-5 text-end'>
       <h1 className='text-pink'>{username}</h1>
       </Col>
     </Row>
+    <div>
+      <h2></h2>
+    </div>
     <Row>
-      <img></img>
-      <h3>{title}</h3>
+      <Col className='text-left' lg={8}>
+      <h1>Hello, {name}! Welcome Back!</h1>   
+      </Col>
+      <Col className='text-end'>
       <h3>{company}</h3>
+      <h4>{title}</h4>
+      </Col>
     </Row>
-    <Row className='mt-4'>
-        <Card bg='dark' text='white'>
-              <Card.Header>
-                <h3>Hello, {name}. Welcome Back!</h3>
-              </Card.Header>
+
+    <Row className='mt-2 mb-3'>
+    <Card bg='dark' text='white'>
+              <Card.Subtitle className='pt-2'>
+                <h3>My Reviews:</h3>
+              </Card.Subtitle>
         </Card>
     </Row>
     <Row>
