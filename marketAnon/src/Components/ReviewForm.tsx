@@ -34,7 +34,7 @@ export default function ReviewForm({ addNewReview, companyName }: ReviewFormProp
                     <Form.Control name='body' value={newReview.body} onChange={handleInputChange} />
                     <Form.Label>Rating:</Form.Label>
                     <Form.Control name='rating' value={newReview.rating} onChange={handleInputChange} />
-                    <Button className='mt-3 w-100 button' type='submit'>Create Post</Button>
+                    <Button className='mt-3 w-100 button' type='submit'>Create Review</Button>
                 </Form>
             </Card.Body>
         </Card>

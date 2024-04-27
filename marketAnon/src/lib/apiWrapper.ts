@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ReviewFormDataType, ReviewType, VendorType, TokenType, UserFormDataType, UserBuyerType } from '../types';
+import { Copy } from 'react-bootstrap-icons';
 
 
 const baseURL:string = 'https://marketanon.onrender.com'
@@ -208,10 +209,12 @@ async function editReviewById(reviewId:string|number, token:string, editedReview
     return { data, error }
 }
 
-async function deleteReviewById(reviewId:string|number, token:string): Promise<APIResponse<string>> {
+async function deleteReviewById(reviewId:string|number, token:string, company:string): Promise<APIResponse<string>> {
     let data;
     let error;
     const url = `https://marketanon.onrender.com/reviews/${reviewId}`
+    //const returnurl = `https://marketanon.onrender.com/reviews/${company}`
+    console.log(url, 'review URL to be deleted')
     const options = {
         method:"DELETE",
         headers: {
@@ -219,7 +222,9 @@ async function deleteReviewById(reviewId:string|number, token:string): Promise<A
             Authorization: `Bearer ${token}`}}
     try {
         const response = await fetch(url, options)
+        console.log(response, 'fetch response inside delete rev by ID')
         data = await response.json()
+        console.log(data, 'data .json after fetch req in delete rev by ID')
     } catch(err) {
         if (axios.isAxiosError(err)){
             error = err.response?.data?.error || `Post with ID ${reviewId} does not exist`
@@ -227,7 +232,7 @@ async function deleteReviewById(reviewId:string|number, token:string): Promise<A
             error = 'Something went wrong'
         }
     }
-    return { data, error }
+    return { error }
 }
 
 export {

@@ -1,7 +1,7 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import { UserBuyerType, ReviewType, CategoryType } from '../types'
+import { UserBuyerType, ReviewType } from '../types'
 import { useEffect, useState } from 'react'
 import { getReviewById } from '../lib/apiWrapper'
 import Review from '../components/Review'

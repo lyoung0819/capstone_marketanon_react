@@ -15,9 +15,10 @@ import { useParams } from 'react-router-dom'
 
  type VendorPageProps = {
   flashMessage: (newMessage: string | undefined, newCategory: CategoryType | undefined) => void
+  loggedInUser: UserBuyerType
  }
 
- export default function Vendorpage({ flashMessage }: VendorPageProps) {
+ export default function Vendorpage({ flashMessage, loggedInUser }: VendorPageProps) {
   
   const [showForm, setShowForm] = useState(false)
   const [reviews, setReviews] = useState<ReviewType[]>([])
@@ -63,7 +64,7 @@ import { useParams } from 'react-router-dom'
     <Container>
         <div className="my-4">
           <Button className='w-100 button' onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Write Review'}</Button>
-          {showForm && <ReviewForm addNewReview={addNewReview} companyName={companyName}/>}
+          {showForm && <ReviewForm addNewReview={addNewReview} companyName={companyName!}/>}
         </div>
       <Row classname="my-6">
           <Col>
@@ -72,7 +73,7 @@ import { useParams } from 'react-router-dom'
       </Row>
       <Row>
         <Col>
-        {reviews && Array.isArray(reviews) && reviews?.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} flashMessage={flashMessage} />)}
+        {reviews && Array.isArray(reviews) && reviews?.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} flashMessage={flashMessage} currentUser={loggedInUser} companyName={companyName!}/>)}
         </Col>
       </Row>
       </Container>

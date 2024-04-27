@@ -6,61 +6,59 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
 import { useNavigate, useParams } from 'react-router-dom'
-import { deleteReviewById, getReviewById } from '../lib/apiWrapper'
+import { deleteReviewById, editReviewById, getReviewById } from '../lib/apiWrapper'
 
 type ReviewProps = {
     review: ReviewType,
-    currentUser: UserBuyerType|null
-    flashMessage: (message:string, category:CategoryType) => void
+    // key: number,
+    currentUser: UserBuyerType|null,
+    flashMessage: (message:string, category:CategoryType) => void,
+    companyName: string
 }
 
-export default function Review({ review, currentUser, flashMessage }: ReviewProps) {
+export default function Review({ review, currentUser, flashMessage, companyName }: ReviewProps) {
     console.log(review);
-    const { reviewId } = useParams();
+    // const { reviewId } = useParams();
     const navigate = useNavigate();
+    const reviewId = review.id
     
 
-    const [reviewToEditData, setReviewtToEditData] = useState<ReviewFormDataType>({title: '', body: '', rating:0, vendor: ''})
-    const [showModal, setShowModal] = useState(false);
+    const [reviewToEditData, setReviewtToEditData] = useState<ReviewFormDataType>({title: '', body: '', rating:0, vendor: companyName})
+    const [showModalDel, setShowModalDel] = useState(false);
+    const [showModalEdit, setShowModalEdit] = useState(false);
 
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
-    
-    // <USE EFFECT>
-    // useEffect( () => {
-    //     async function getReview(){
-    //         let response = await getReviewById(reviewId!)
-    //         if (response.data){
-    //             const review = response.data
-    //             const currentUser = JSON.parse(localStorage.getItem('currentUser')|| '{}')
-    //             if (currentUser?.id !== review.author.id){
-    //                 flashMessage('You do not have permission to edit this post', 'danger');
-    //                 navigate('/')
-    //             } else {
-    //                 setReviewtToEditData({title: review.title, body: review.body, rating: review.rating, vendor: review.vendor_id})
-    //             }
-    //         } else if(response.error){
-    //             flashMessage(response.error, 'danger');
-    //             navigate('/')
-    //         } else {
-    //             flashMessage("Something went wrong", 'warning')
-    //             navigate('/')
-    //         }
-    //     }
-    //     getReview()
-    // }, [reviewId, currentUser] )
-    // </USE EFFECT>
+    const openModalDel = () => setShowModalDel(true);
+    const closeModalDel = () => setShowModalDel(false);
+    const openModalEdit = () => setShowModalEdit(true);
+    const closeModalEdit = () => setShowModalEdit(false);
+    //Edit:
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReviewtToEditData({...reviewToEditData, [event.target.name]:event.target.value})
+    }
 
+    const handleFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault()
+        const token = localStorage.getItem('token') || '';
+        const response = await editReviewById(reviewId!, token, reviewToEditData);
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            flashMessage(`${response.data?.title} has been updated`, 'success');
+        }
+    }
 
+    //Delete:
     const handleDeleteClick = async () => {
         const token = localStorage.getItem('token') || '';
-        const response = await deleteReviewById(reviewId!, token);
+        const response = await deleteReviewById(reviewId!, token, companyName);
         if (response.error){
             flashMessage(response.error, 'danger')
         } else {
             flashMessage(response.data!, 'primary')
-            navigate('/')
+            flashMessage('Your review was deleted!', 'success')
+            navigate(`/myprofile`)
         }
     }
     
@@ -70,31 +68,50 @@ export default function Review({ review, currentUser, flashMessage }: ReviewProp
         <>
         <Card className='my-2' bg='dark' text='white'>
             <Card.Header>
-                <Card.Title>{review.title}</Card.Title>
+                <Card.Title>{review.title} | ID: #{review.id} </Card.Title>
                 <Card.Subtitle className="mb-1 text-pink">{review.author.username}</Card.Subtitle>
             </Card.Header>
             <Card.Body>
                 <Card.Text className="">{review.body}</Card.Text>
             </Card.Body>
-            <Row className='my-3' >
-                <Col lg={6} className='my-3 w-50'>
-                    {review.author.id === currentUser?.id && <Button >Edit Review</Button>}
+            <Row className='mb-1 p-3' >
+                <Col lg={6} className='w-50'>
+                    {review.author.id === currentUser?.id && <Button className='button' onClick={openModalEdit}>Edit Review</Button>}
                 </Col>
-                <Col lg={6} className='my-3 w-50'>
-                    {review.author.id === currentUser?.id && <Button onClick={openModal}>Delete Review</Button>}
+                <Col lg={6} className='w-50'>
+                    {review.author.id === currentUser?.id && <Button className='button' onClick={openModalDel}>Delete Review</Button>}
                 </Col>
             </Row>
         </Card>
-        <Modal show={showModal} onHide={closeModal} id='del-rev-modal'>
+        <Modal show={showModalEdit} onHide={closeModalEdit} id='EDIT-rev-modal'>
             <Modal.Header closeButton>
-                <Modal.Title>Delete {reviewToEditData.title}?</Modal.Title>
+                <Modal.Title >Edit: '{reviewToEditData.title}'</Modal.Title>
             </Modal.Header>
             <Modal.Body >
-                Are you sure you want to delete {reviewToEditData.title}? This action cannot be undone.
+                <Form onSubmit={handleFormSubmit}>
+                    <Form.Label>Title:</Form.Label>
+                    <Form.Control name='title' value={reviewToEditData.title} onChange={handleInputChange} />
+                    <Form.Label>Review:</Form.Label>
+                    <Form.Control name='body' value={reviewToEditData.body} onChange={handleInputChange} />
+                    <Form.Label>Rating:</Form.Label>
+                    <Form.Control name='rating' value={reviewToEditData.rating} onChange={handleInputChange} /> 
+                </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='secondary' onClick={closeModal}>Close</Button>
-                <Button variant='danger' onClick={handleDeleteClick}>Delete Post</Button>
+                <Button variant='secondary' onClick={closeModalEdit}>Close</Button>
+                <Button className='button' onClick={handleFormSubmit}>Edit Review</Button>
+            </Modal.Footer>
+        </Modal>
+        <Modal show={showModalDel} onHide={closeModalDel} id='DEL-rev-modal'>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete Your Review?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body >
+                Are you sure you want to delete your review? This action cannot be undone.
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant='secondary' onClick={closeModalDel}>Close</Button>
+                <Button className='button' onClick={handleDeleteClick}>Delete Review</Button>
             </Modal.Footer>
         </Modal>
     </>

@@ -71,9 +71,9 @@ export default function App() {
           <Route path='/dash' element={<Dash />} />
           <Route path='/signup' element={<Signup flashMessage={flashMessage} />} />
           <Route path='/' element={<Home />} />
-          <Route path={'/reviews/:companyName'} element={<Vendorpage flashMessage={flashMessage} />} />
+          <Route path={'/reviews/:companyName'} element={<Vendorpage loggedInUser={loggedInUser!} flashMessage={flashMessage} />} />
           <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} />} />
-          <Route path='/myprofile' element={<Userprofile currentUser={loggedInUser} flashMessage={flashMessage}/>} />
+          <Route path='/myprofile' element={<Userprofile currentUser={loggedInUser} />} />
           <Route path='/roadmap' element={<Roadmap />} />
         </Routes>
       </Container>
