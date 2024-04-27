@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ReviewFormDataType, ReviewType, VendorType, TokenType, UserFormDataType, UserBuyerType } from '../types';
-import { Copy } from 'react-bootstrap-icons';
 
 
 const baseURL:string = 'https://marketanon.onrender.com'
@@ -196,10 +195,25 @@ async function getReviewsByCompany(companyName:string): Promise<APIResponse<Revi
 async function editReviewById(reviewId:string|number, token:string, editedReviewData:ReviewFormDataType): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
-    try{
-        const response = await apiClientTokenAuth(token).put(reviewEndpoint + '/' + reviewId, editedReviewData)
-        data = response.data
-    } catch(err) {
+    const url = `https://marketanon.onrender.com/reviews/${reviewId}`
+    const options = {
+        method:"PUT",
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            title: editedReviewData.title,
+            body: editedReviewData.body,
+            rating: editedReviewData.rating
+        })}
+        try{
+            const response = await fetch(url, options)
+            console.log(response, 'response inside of editReview')
+            data = await response.json()
+            console.log(data, 'response inside of editReview')
+        }    
+        catch(err) {
         if (axios.isAxiosError(err)){
             error = err.response?.data?.error || `Post with ID ${reviewId} does not exist`
         } else {
@@ -209,7 +223,7 @@ async function editReviewById(reviewId:string|number, token:string, editedReview
     return { data, error }
 }
 
-async function deleteReviewById(reviewId:string|number, token:string, company:string): Promise<APIResponse<string>> {
+async function deleteReviewById(reviewId:string|number, token:string): Promise<APIResponse<string>> {
     let data;
     let error;
     const url = `https://marketanon.onrender.com/reviews/${reviewId}`
@@ -245,5 +259,6 @@ export {
     getReviewsByCompany,
     getReviewById,
     editReviewById,
-    deleteReviewById
+    deleteReviewById,
+    apiClientTokenAuth
 }

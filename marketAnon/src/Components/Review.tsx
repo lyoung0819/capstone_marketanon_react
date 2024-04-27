@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ReviewType, UserBuyerType, CategoryType, ReviewFormDataType } from "../types"
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
@@ -7,8 +7,8 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { useNavigate, useParams } from 'react-router-dom'
-import { deleteReviewById, editReviewById, getReviewById } from '../lib/apiWrapper'
+import { useNavigate } from 'react-router-dom'
+import { deleteReviewById, editReviewById } from '../lib/apiWrapper'
 
 type ReviewProps = {
     review: ReviewType,
@@ -24,10 +24,14 @@ export default function Review({ review, currentUser, flashMessage, companyName 
     const navigate = useNavigate();
     const reviewId = review.id
     
-
     const [reviewToEditData, setReviewtToEditData] = useState<ReviewFormDataType>({title: '', body: '', rating:0, vendor: companyName})
     const [showModalDel, setShowModalDel] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
+    //const [render, setRender] = useState(0);
+
+    // const renderfunc = () => {
+    //     setRender(render + 1)
+    // }
 
     const openModalDel = () => setShowModalDel(true);
     const closeModalDel = () => setShowModalDel(false);
@@ -46,13 +50,17 @@ export default function Review({ review, currentUser, flashMessage, companyName 
             flashMessage(response.error, 'danger')
         } else {
             flashMessage(`${response.data?.title} has been updated`, 'success');
+            closeModalEdit()
+            //re-render:
+            //renderfunc()
+            window.location.reload()
         }
     }
 
     //Delete:
     const handleDeleteClick = async () => {
         const token = localStorage.getItem('token') || '';
-        const response = await deleteReviewById(reviewId!, token, companyName);
+        const response = await deleteReviewById(reviewId!, token); // companyName deleted
         if (response.error){
             flashMessage(response.error, 'danger')
         } else {
