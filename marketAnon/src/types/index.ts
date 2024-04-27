@@ -19,9 +19,10 @@ export type ReviewType = {
     id: number,
     title: string,
     body: string,
+    rating: number
     date_created: string,
     author: UserBuyerType,
-    vendor_id: number
+    vendor_id: number|string
   }
   
   

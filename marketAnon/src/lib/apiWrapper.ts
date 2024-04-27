@@ -159,7 +159,7 @@ async function createReview(token:string, reviewData:ReviewFormDataType): Promis
 }
 
 
-async function getReviewById(reviewId:string|number): Promise<APIResponse<ReviewType[]>> {
+async function getReviewById(reviewId:string|number): Promise<APIResponse<ReviewType>> {
     let data;
     let error;
     try{
@@ -211,9 +211,15 @@ async function editReviewById(reviewId:string|number, token:string, editedReview
 async function deleteReviewById(reviewId:string|number, token:string): Promise<APIResponse<string>> {
     let data;
     let error;
-    try{
-        const response = await apiClientTokenAuth(token).delete(reviewEndpoint + '/' + reviewId)
-        data = response.data.success
+    const url = `https://marketanon.onrender.com/reviews/${reviewId}`
+    const options = {
+        method:"DELETE",
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`}}
+    try {
+        const response = await fetch(url, options)
+        data = await response.json()
     } catch(err) {
         if (axios.isAxiosError(err)){
             error = err.response?.data?.error || `Post with ID ${reviewId} does not exist`

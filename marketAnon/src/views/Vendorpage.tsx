@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { ReviewFormDataType } from '../types'
+import { ReviewFormDataType, UserBuyerType } from '../types'
 import { ReviewType, CategoryType } from '../types'
 import Form from 'react-bootstrap/Form';
 import Review from '../components/Review'
@@ -56,6 +56,8 @@ import { useParams } from 'react-router-dom'
     }
   }
 
+
+
   return (
     <>
     <Container>
@@ -70,7 +72,7 @@ import { useParams } from 'react-router-dom'
       </Row>
       <Row>
         <Col>
-        {reviews && Array.isArray(reviews) && reviews?.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} />)}
+        {reviews && Array.isArray(reviews) && reviews?.filter(r => r.title.toLowerCase().includes(searchRevs.toLowerCase())).map(r => <Review key={r.id} review={r} flashMessage={flashMessage} />)}
         </Col>
       </Row>
       </Container>

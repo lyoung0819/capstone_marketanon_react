@@ -58,6 +58,7 @@ export default function App() {
     setisLoggedInUser(null);
     localStorage.removeItem('token')
     localStorage.removeItem('tokenExp')
+    localStorage.removeItem('currentUser')
     flashMessage('You have been logged out', 'dark')
   }
 
@@ -72,7 +73,7 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path={'/reviews/:companyName'} element={<Vendorpage flashMessage={flashMessage} />} />
           <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} />} />
-          <Route path='/myprofile' element={<Userprofile currentUser={loggedInUser} />} />
+          <Route path='/myprofile' element={<Userprofile currentUser={loggedInUser} flashMessage={flashMessage}/>} />
           <Route path='/roadmap' element={<Roadmap />} />
         </Routes>
       </Container>
