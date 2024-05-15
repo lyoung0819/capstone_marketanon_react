@@ -9,7 +9,7 @@ frontend:
         - node -v
         - npm run-script build
   artifacts:
-    baseDirectory: build
+    baseDirectory: marketAnon
     files:
       - '**/*'
   cache:
